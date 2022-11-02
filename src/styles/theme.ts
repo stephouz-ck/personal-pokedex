@@ -4,15 +4,15 @@ export const theme: MantineTheme = {
   ...DEFAULT_THEME,
   primaryColor: "blue",
   colorScheme: "dark",
-  fontFamily: "Mukta",
 
   headings: {
     ...DEFAULT_THEME.headings,
-    fontFamily: "'Mukta', -system-ui",
+    fontFamily: "'Kanit', sans-serif",
   },
   globalStyles: (theme) => ({
     "html,body,#__next": {
       boxSizing: "border-box",
+      fontFamily: "'Titillium Web', sans-serif",
       minHeight: "inherit",
       height: "100%",
       padding: "0 auto",
@@ -22,6 +22,18 @@ export const theme: MantineTheme = {
   }),
   colors: {
     ...DEFAULT_THEME.colors,
+    grey: [
+      "#E4E4E4",
+      "#D8D8D8",
+      "#CCCCCC",
+      "#B3B3B3",
+      "#818181",
+      "#686868",
+      "#4F4F4F",
+      "#363636",
+      "#2A2A2A",
+      "#1D1D1D",
+    ],
     blue: [
       "#E0E0E0",
       "#A1BCC2",
@@ -47,16 +59,16 @@ export const theme: MantineTheme = {
       "#071E13",
     ],
     yellow: [
-      "#FBF9F4",
-      "#FAEED6",
-      "#F8E2B7",
-      "#F5CA7A",
+      "#EECB8B",
+      "#EEC16E",
+      "#EEB751",
+      "#EBAC38",
+      "#E9A424",
       "#EE9B00",
-      "#D88D00",
-      "#C48000",
-      "#B27400",
-      "#A26900",
-      "#935F00",
+      "#C48002",
+      "#996503",
+      "#6F4A05",
+      "#442E06",
     ],
     red: [
       "#FAEED6",
@@ -80,7 +92,7 @@ export const theme: MantineTheme = {
       "#623A8B",
       "#4F227C",
       "#3C096C",
-      "#35285D",
+      "#280747",
     ],
   },
 };

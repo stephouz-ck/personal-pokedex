@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AllPokemonsDto, Pokemon } from "../interfaces/api";
+import { Ability, AllPokemonsDto, Pokemon } from "../interfaces/api";
 
 const BASE_URL = "https://pokeapi.co/api/v2";
 
@@ -7,7 +7,9 @@ export const fetchAllPokemon = async (): Promise<Pokemon[]> => {
   try {
     const {
       data: { results },
-    } = await axios.get<AllPokemonsDto>(`${BASE_URL}/pokemon`);
+    } = await axios.get<AllPokemonsDto>(
+      `${BASE_URL}/pokemon/?offset=0&limit=151`
+    );
     const allPokemons: Pokemon[] = [];
     for (const pokemonResponse of results) {
       const { data } = await axios.get<Pokemon>(pokemonResponse.url);
@@ -21,3 +23,9 @@ export const fetchAllPokemon = async (): Promise<Pokemon[]> => {
     return [];
   }
 };
+
+// export const fetchAllAbilities = async (): Promise<Ability[]> => {
+//   try {
+//     const response = await axios.get<
+//   }
+// }
