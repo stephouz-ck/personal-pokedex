@@ -28,7 +28,7 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
 
   return (
     <Dialog
-      opened={true}
+      opened
       className={classes.dialogContainer}
       transition="slide-right"
       transitionDuration={300}
