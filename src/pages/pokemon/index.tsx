@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pokemon } from "../../interfaces/api";
 import { TYPE_COLORS } from "../../interfaces/color-types";
 import { fetchAllPokemon } from "../../services/pokemon.service";
@@ -20,10 +20,27 @@ import WithNavTemplate from "../../templates/WithNav.template";
 const PokemonDetails = dynamic(
   () => import("../../components/PokemonDetails/PokemonDetails")
 );
+// const SecondPokemonDetails = dynamic(
+//   () => import("../../components/PokemonDetails/SecondPokemonDetails")
+// );
 
 export default function AllPokemonPage() {
   const { data } = useQuery(["all-pokemon"], fetchAllPokemon);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  // const [secondSelected, setSecondSelected] = useState<Pokemon | null>(null);
+
+  // const handlePokemonSelect = (first: Pokemon, second: Pokemon) => {
+  //   if (second.id !== first.id) {
+  //     setSecondSelected(second);
+  //   }
+  //   setSelectedPokemon(first)
+  // };
+
+  // useEffect(() => {
+  //   if (selectedPokemon !== null) {
+  //     setSecondSelected()
+  //   }
+  // }, [selectedPokemon])
 
   return (
     <WithNavTemplate>
@@ -80,6 +97,12 @@ export default function AllPokemonPage() {
           onClose={() => setSelectedPokemon(null)}
         />
       )}
+      {/* {selectedPokemon && secondSelected && (
+        <SecondPokemonDetails
+          selectedPokemon={secondSelected}
+          onClose={() => setSecondSelected(null)}
+        />
+      )} */}
     </WithNavTemplate>
   );
 }

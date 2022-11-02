@@ -15,22 +15,25 @@ import { useStyles } from "./PokemonDetails.styled";
 import { PokemonDetailsProps } from "./PokemonDetails.types";
 
 const STATS = {
-  hp: "/media/icons/stats/hearts.png",
-  attack: "/media/icons/stats/dagger.png",
-  defense: "/media/icons/stats/wooden.png",
-  "special-attack": "/media/icons/stats/swords.png",
-  "special-defense": "/media/icons/stats/shield.png",
-  speed: "/media/icons/stats/hermes.png",
+  hp: "/media/icons/hearts.png",
+  attack: "/media/icons/dagger.png",
+  defense: "/media/icons/wooden.png",
+  "special-attack": "/media/icons/swords.png",
+  "special-defense": "/media/icons/shield.png",
+  speed: "/media/icons/hermes.png",
 };
 
-const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
+const SecondPokemonDetails = ({
+  selectedPokemon,
+  onClose,
+}: PokemonDetailsProps) => {
   const { classes } = useStyles();
 
   return (
     <Dialog
       opened={true}
-      className={classes.dialogContainer}
-      transition="slide-right"
+      className={classes.secondDialogContainer}
+      transition="slide-left"
       transitionDuration={300}
       transitionTimingFunction="ease"
       onClose={() => onClose()}
@@ -97,4 +100,4 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
   );
 };
 
-export default PokemonDetails;
+export default SecondPokemonDetails;
