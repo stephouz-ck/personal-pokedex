@@ -7,7 +7,7 @@ export const TYPE_COLORS = {
   ICE: "blue.2",
   FIGHTING: "red.4",
   POISON: "purple",
-  GROUND: "brown",
+  GROUND: "green.5",
   FLYING: "orange",
   PSYCHIC: "violet",
   BUG: "lime",

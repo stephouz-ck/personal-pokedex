@@ -17,9 +17,30 @@ const TopNav = () => {
           alt="Personal PokéDex"
         />
         <Group>
-          <Button size="md">button</Button>
-          <Button size="md">button</Button>
-          <Button size="md">button</Button>
+          <Button
+            size="md"
+            leftIcon={
+              <Image
+                src="/media/icons/other/exchange.png"
+                style={{ maxWidth: "24px" }}
+                alt="Compare"
+              />
+            }
+          >
+            Compare
+          </Button>
+          <Button
+            size="md"
+            leftIcon={
+              <Image
+                src="/media/icons/other/eraser.png"
+                style={{ maxWidth: "24px" }}
+                alt="Compare"
+              />
+            }
+          >
+            Clear
+          </Button>
         </Group>
       </Group>
     </Box>

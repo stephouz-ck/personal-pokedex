@@ -4,7 +4,7 @@ export interface Ability {
   is_main_series: boolean;
   generation: Generation;
   names: Name[];
-  effect_entries: Welcome2EffectEntry[];
+  effect_entries: EffectEntry[];
   effect_changes: EffectChange[];
   flavor_text_entries: FlavorTextEntry[];
   pokemon: AbilityPokemon[];
@@ -25,7 +25,7 @@ export interface Generation {
   url: string;
 }
 
-export interface Welcome2EffectEntry {
+export interface EffectEntry {
   effect: string;
   short_effect: string;
   language: Generation;
@@ -46,4 +46,12 @@ export interface AbilityPokemon {
   is_hidden: boolean;
   slot: number;
   pokemon: Generation;
+}
+
+export interface AllAbilitiesDto {
+  results: AbilityResponseDto[];
+}
+export interface AbilityResponseDto {
+  name: string;
+  url: string;
 }
