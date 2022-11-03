@@ -7,15 +7,15 @@ export const useStyles = createStyles((theme) => ({
     position: "fixed",
     left: "20px",
     top: "20px",
-    overflowY: "auto",
     "& h1, h2, h3, h4, h5, h6 ": {
       textTransform: "uppercase",
     },
   },
   dialogContent: {
     display: "flex",
+    height: "100%",
     flexDirection: "column",
-    padding: "1.75rem 0rem",
+    padding: "1.75rem 0rem !important",
     gap: "2rem",
   },
   categoryTitle: {

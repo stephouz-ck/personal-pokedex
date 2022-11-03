@@ -8,6 +8,7 @@ import {
   Group,
   Box,
   Button,
+  ScrollArea,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
@@ -48,7 +49,6 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
       return filteredAbilities;
     });
     // TODO change the visibility if the ability id changes
-    // TODO set the ability language to english only
     console.log(filteredAbilities);
   }, [selectedAbility, data]);
 
@@ -137,6 +137,7 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
           </Group>
         </Box>
       </Dialog>
+
       {abilityDetails && (
         <AbilityDetails
           selectedAbility={abilityDetails}
