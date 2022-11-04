@@ -1,21 +1,9 @@
-import { Box, Dialog, Container, Text, Title } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { Box, Dialog, Group, Text, Title, Image } from "@mantine/core";
 import { useStyles } from "./AbilityDetails.styled";
 import { AbilityProps } from "./AbilityDetails.types";
 
 const AbilityDetails = ({ selectedAbility, onClose }: AbilityProps) => {
   const { classes } = useStyles();
-
-  // useEffect(() => {
-  //   const effectEntries = () => {
-  //     selectedAbility.effect_entries.filter((T) => {
-  //       if (T.language.name === "en") {
-  //         return T.short_effect as string;
-  //       }
-  //     });
-  //   };
-  //   effectEntries();
-  // }, [selectedAbility]);
 
   return (
     <Dialog
@@ -32,13 +20,16 @@ const AbilityDetails = ({ selectedAbility, onClose }: AbilityProps) => {
         (T) =>
           T.language.name === "en" && (
             <Box>
-              <Title
-                className={classes.categoryTitle}
-                key={selectedAbility.id}
-                order={4}
-              >
-                {selectedAbility.name}
-              </Title>
+              <Group className={classes.categoryTitle}>
+                <Image
+                  src="/media/icons/other/information.png"
+                  alt="Info"
+                  width="1.75rem"
+                />
+                <Title key={selectedAbility.id} order={3}>
+                  {selectedAbility.name}
+                </Title>
+              </Group>
               <Box className={classes.dialogContent}>
                 <Text key={selectedAbility.name}>{T.short_effect}</Text>
                 <Text key={T.language.name}>{T.effect}</Text>

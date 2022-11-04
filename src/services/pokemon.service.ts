@@ -1,6 +1,10 @@
 import axios from "axios";
 import { Ability, AllAbilitiesDto } from "../interfaces/ability";
 import { AllPokemonsDto, Pokemon } from "../interfaces/api";
+import {
+  AllCharacteristicsDto,
+  Characteristic,
+} from "../interfaces/characteristics";
 
 const BASE_URL = "https://pokeapi.co/api/v2";
 
@@ -38,6 +42,27 @@ export const fetchAllAbilities = async (): Promise<Ability[]> => {
       abilities.push(data);
     }
     return abilities;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    }
+    return [];
+  }
+};
+
+export const fetchAllCharacteristics = async (): Promise<Characteristic[]> => {
+  try {
+    const {
+      data: { results },
+    } = await axios.get<AllCharacteristicsDto>(
+      `${BASE_URL}/characteristic?offset=0&limit=151`
+    );
+    const characteristics: Characteristic[] = [];
+    for (const characteristicRes of results) {
+      const { data } = await axios.get<Characteristic>(characteristicRes.url);
+      characteristics.push(data);
+    }
+    return characteristics;
   } catch (error) {
     if (error instanceof Error) {
       console.log(error.message);

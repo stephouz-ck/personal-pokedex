@@ -20,5 +20,6 @@ export const useStyles = createStyles((theme) => ({
   categoryTitle: {
     fontWeight: "bold",
     textTransform: "capitalize",
+    margin: "0 0 2rem 0",
   },
 }));

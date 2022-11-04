@@ -7,16 +7,29 @@ export const useStyles = createStyles((theme) => ({
     position: "fixed",
     left: "20px",
     top: "20px",
+    overflow: "hidden",
     "& h1, h2, h3, h4, h5, h6 ": {
       textTransform: "uppercase",
     },
   },
-  dialogContent: {
+  header: {
     display: "flex",
-    height: "100%",
     flexDirection: "column",
-    padding: "1.75rem 0rem !important",
-    gap: "2rem",
+    flexGrow: 1,
+  },
+  dialogContent: {
+    width: "100%",
+    height: "calc(100vh - 20vh)",
+    overflow: "hidden",
+  },
+  dialogScrollArea: {
+    height: "75%",
+    padding: "0 0  4rem 0",
+    // div1 = ScrollArea, div2 = Table, div3 = child elements
+    "& > div > div > div": {
+      margin: "2rem 0",
+    },
+    "& scrollbar": {},
   },
   categoryTitle: {
     fontWeight: "bold",

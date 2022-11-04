@@ -40,7 +40,7 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
     if (selectedAbility === undefined || data === undefined) return;
 
     const filteredAbilities: Ability[] = [];
-
+    // ? sets the selected ability of the available abilities
     data.forEach((ability) => {
       if (selectedAbility === ability.name) {
         setAbilityDetails(ability);
@@ -48,9 +48,18 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
       }
       return filteredAbilities;
     });
-    // TODO change the visibility if the ability id changes
-    console.log(filteredAbilities);
   }, [selectedAbility, data]);
+
+  // TODO reset the ability details to undefined if the selected pokemon has changed
+
+  // useEffect(() => {
+  //   if (abilityDetails === undefined) return
+
+  //   const pokemonAbility = abilityDetails?.pokemon.filter((T) => T.pokemon.name)
+  //   if (selectedPokemon.name !== ) {
+
+  //   }
+  // }, [selectedPokemon])
 
   return (
     <>
@@ -64,7 +73,7 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
         withCloseButton
         withBorder
       >
-        <Stack align="center">
+        <Stack align="center" className={classes.header}>
           <Image
             src={
               selectedPokemon.sprites.other?.["official-artwork"].front_default
@@ -89,52 +98,64 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
             ))}
           </Group>
         </Stack>
-        <Box className={classes.dialogContent}>
+        <Box
+          className={classes.dialogScrollArea}
+          component={ScrollArea}
+          offsetScrollbars
+        >
           {/* ABILITIES */}
-          <Title order={4} className={classes.categoryTitle}>
-            Abilities
-          </Title>
-          <Group>
-            {selectedPokemon.abilities.map((T) => (
-              <Button
-                key={T.slot}
-                onClick={() => setSelectedAbility(T.ability.name)}
-              >
-                {T.ability.name}
-              </Button>
-            ))}
-          </Group>
+          <Stack id="pokemon_details__abilities">
+            <Title order={4} className={classes.categoryTitle}>
+              Abilities
+            </Title>
+            <Group>
+              {selectedPokemon.abilities.map((T) => (
+                <Button
+                  key={T.slot}
+                  onClick={() => setSelectedAbility(T.ability.name)}
+                >
+                  {T.ability.name}
+                </Button>
+              ))}
+            </Group>
+          </Stack>
           {/* STATS */}
-          <Title order={4} className={classes.categoryTitle}>
-            Stats
-          </Title>
-          <Stack>
-            {selectedPokemon.stats.map((T) => (
-              <Group key={`${T.stat.name}`} className={classes.statInfo}>
-                <Group>
-                  <Image
-                    src={
-                      `${STATS[T.stat.name as keyof typeof STATS]}` as string
-                    }
-                    width="24px"
-                    key={T.base_stat}
-                    alt={T.stat.name}
-                  />
-                  <Text key={T.stat.name}>{T.stat.name}</Text>
+          <Stack id="pokemon_details__stats">
+            <Title order={4} className={classes.categoryTitle}>
+              Stats
+            </Title>
+            <Stack>
+              {selectedPokemon.stats.map((T) => (
+                <Group key={`${T.stat.name}`} className={classes.statInfo}>
+                  <Group>
+                    <Image
+                      src={
+                        `${STATS[T.stat.name as keyof typeof STATS]}` as string
+                      }
+                      width="24px"
+                      key={T.base_stat}
+                      alt={T.stat.name}
+                    />
+                    <Text key={T.stat.name}>{T.stat.name}</Text>
+                  </Group>
+                  <Text key={T.base_stat}>{T.base_stat}</Text>
                 </Group>
-                <Text key={T.base_stat}>{T.base_stat}</Text>
-              </Group>
-            ))}
+              ))}
+            </Stack>
           </Stack>
           {/* HELD ITEMS */}
-          <Title order={4} className={classes.categoryTitle}>
-            Held Items
-          </Title>
-          <Group>
-            {selectedPokemon.held_items.map((I) => (
-              <Text key={I.item.name}>{I.item.name}</Text>
-            ))}
-          </Group>
+          {selectedPokemon.held_items.length !== 0 && (
+            <>
+              <Title order={4} className={classes.categoryTitle}>
+                Held Items
+              </Title>
+              <Group>
+                {selectedPokemon.held_items.map((I) => (
+                  <Text key={I.item.name}>{I.item.name}</Text>
+                ))}
+              </Group>
+            </>
+          )}
         </Box>
       </Dialog>
 

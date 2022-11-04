@@ -14,6 +14,10 @@ export default function App(props: AppProps) {
       <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
         <Head>
           <title>Personal PokéDex</title>
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width"
+          />
         </Head>
         <Component {...pageProps} />
       </MantineProvider>
