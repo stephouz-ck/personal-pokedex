@@ -1,4 +1,11 @@
-import { Center, Box, Button, Stack, Image } from "@mantine/core";
+import {
+  Center,
+  Box,
+  Button,
+  Stack,
+  Image,
+  LoadingOverlay,
+} from "@mantine/core";
 import Link from "next/link";
 import LandingTemplate from "../templates/Landing.template";
 
@@ -10,7 +17,11 @@ export default function Home() {
           <Stack>
             <Image src="/media/pokedex_logo.png" alt="PokéSteph" />
             <Link href="/pokemon" passHref>
-              <Button component="a" sx={{ margin: "0 auto" }}>
+              <Button
+                component="a"
+                sx={{ margin: "0 auto" }}
+                onClick={() => <LoadingOverlay visible={true} />}
+              >
                 Show all pokemon
               </Button>
             </Link>

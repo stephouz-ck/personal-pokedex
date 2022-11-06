@@ -11,7 +11,6 @@ import {
   ScrollArea,
   LoadingOverlay,
   Loader,
-  Grid,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
@@ -19,10 +18,7 @@ import { useEffect, useState } from "react";
 import { Ability } from "../../interfaces/ability";
 
 import { TYPE_COLORS } from "../../interfaces/color-types";
-import {
-  fetchAllAbilities,
-  fetchAllCharacteristics,
-} from "../../services/pokemon.service";
+import { fetchAllAbilities } from "../../services/pokemon.service";
 import { useStyles } from "./PokemonDetails.styled";
 import { PokemonDetailsProps } from "./PokemonDetails.types";
 
@@ -39,9 +35,11 @@ const STATS = {
   speed: "/media/icons/stats/hermes.png",
 };
 
-const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
+const SecondPokemonDetails = ({
+  selectedPokemon,
+  onClose,
+}: PokemonDetailsProps) => {
   const { data, isLoading } = useQuery(["abilities"], fetchAllAbilities);
-
   const { classes } = useStyles();
   const [selectedAbility, setSelectedAbility] = useState<
     Ability["name"] | null
@@ -63,10 +61,10 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
   }, [selectedAbility, data]);
 
   return (
-    <>
+    <Box>
       <Dialog
         opened
-        className={classes.dialogContainer}
+        className={classes.secondDialogContainer}
         transition="slide-right"
         transitionDuration={300}
         transitionTimingFunction="ease"
@@ -76,7 +74,9 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
       >
         {isLoading && (
           <Box>
-            <LoadingOverlay visible={true} />
+            <LoadingOverlay visible={true}>
+              <Loader scale="2rem" />
+            </LoadingOverlay>
           </Box>
         )}
         <Stack
@@ -167,24 +167,6 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
               </Group>
             </Box>
           )}
-          {/* SPECS */}
-          <Box id="pokemon_details__specs">
-            <Grid columns={2}>
-              <Grid.Col span={1}>
-                <Title order={4} className={classes.categoryTitle}>
-                  Height
-                </Title>
-                <Text>{selectedPokemon.height}</Text>
-              </Grid.Col>
-              <Grid.Col span={1}>
-                <Title order={4} className={classes.categoryTitle}>
-                  Weight
-                </Title>
-                <Text>{selectedPokemon.weight}</Text>
-              </Grid.Col>
-            </Grid>
-          </Box>
-          {}
         </Box>
       </Dialog>
 
@@ -197,8 +179,8 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
           }}
         />
       )}
-    </>
+    </Box>
   );
 };
 
-export default PokemonDetails;
+export default SecondPokemonDetails;

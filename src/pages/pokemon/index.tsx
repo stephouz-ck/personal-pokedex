@@ -9,11 +9,12 @@ import {
   Badge,
   Group,
   Skeleton,
+  LoadingOverlay,
+  Loader,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
-import { Suspense, useState } from "react";
-import { Ability } from "../../interfaces/ability";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { Pokemon } from "../../interfaces/api";
 import { TYPE_COLORS } from "../../interfaces/color-types";
 import { fetchAllPokemon } from "../../services/pokemon.service";
@@ -23,17 +24,60 @@ import { useStyles } from "./pokemon.styled";
 const PokemonDetails = dynamic(
   () => import("../../components/PokemonDetails/PokemonDetails")
 );
+const SecondPokemonDetails = dynamic(
+  () => import("../../components/PokemonDetails/SecondPokemonDetails")
+);
 
 export default function AllPokemonPage() {
   const { data, isLoading } = useQuery(["all-pokemon"], fetchAllPokemon, {
     suspense: true,
+    refetchOnWindowFocus: false,
   });
   const { classes } = useStyles();
-  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  const [firstPokemon, setFirstPokemon] = useState<Pokemon | null>(null);
+  const [secondPokemon, setSecondPokemon] = useState<Pokemon | null>(null);
+
+  const selectedPokemonArray: Pokemon[] = [];
+
+  const handlePokemonSelect = (pokemon: Pokemon) => {
+    selectedPokemonArray.unshift(pokemon);
+    const tempArray = selectedPokemonArray.slice(0, 2);
+
+    const filterPokemons = (clickedPokemon: Pokemon) => {
+      if (firstPokemon === null) {
+        setFirstPokemon(tempArray.at(0) as Pokemon);
+      }
+      if (firstPokemon !== null && secondPokemon === null) {
+        tempArray.push(clickedPokemon);
+        setSecondPokemon(tempArray.at(1) as Pokemon);
+      }
+      // TODO: find way to handle a third choice
+      // if (
+      //   firstPokemon !== null &&
+      //   secondPokemon !== null &&
+      //   clickedPokemon.name !== tempArray.at(0)?.name &&
+      //   clickedPokemon.name !== tempArray.at(1)?.name
+      // ) {
+      //   selectedPokemonArray.unshift(clickedPokemon);
+      //   setSecondPokemon(clickedPokemon);
+      // }
+    };
+    return filterPokemons(pokemon);
+  };
 
   return (
-    <WithNavTemplate>
+    <WithNavTemplate
+      onClear={() => {
+        setFirstPokemon(null);
+        setSecondPokemon(null);
+      }}
+    >
       <Box sx={{ height: "100%" }}>
+        {isLoading && (
+          <LoadingOverlay visible={true}>
+            <Loader scale="2rem" />
+          </LoadingOverlay>
+        )}
         <Grid columns={3}>
           {data?.map((pokemon) => {
             return (
@@ -44,9 +88,7 @@ export default function AllPokemonPage() {
                   <Card
                     radius="md"
                     className={classes.cardContainer}
-                    onClick={(e) => {
-                      setSelectedPokemon(pokemon);
-                    }}
+                    onClick={() => handlePokemonSelect(pokemon)}
                   >
                     <Card.Section inheritPadding py="sm">
                       <Stack align="center">
@@ -96,10 +138,16 @@ export default function AllPokemonPage() {
           })}
         </Grid>
       </Box>
-      {selectedPokemon && (
+      {firstPokemon && (
         <PokemonDetails
-          selectedPokemon={selectedPokemon}
-          onClose={() => setSelectedPokemon(null)}
+          selectedPokemon={firstPokemon}
+          onClose={() => setFirstPokemon(null)}
+        />
+      )}
+      {secondPokemon && (
+        <SecondPokemonDetails
+          selectedPokemon={secondPokemon}
+          onClose={() => setSecondPokemon(null)}
         />
       )}
     </WithNavTemplate>
