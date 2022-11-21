@@ -11,6 +11,8 @@ import {
   ScrollArea,
   LoadingOverlay,
   Loader,
+  Grid,
+  Overlay,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
@@ -167,17 +169,42 @@ const SecondPokemonDetails = ({
               </Group>
             </Box>
           )}
+          {/* SPECS */}
+          <Box id="pokemon_details__specs">
+            <Grid columns={2}>
+              <Grid.Col span={1}>
+                <Title order={4} className={classes.categoryTitle}>
+                  Height
+                </Title>
+                <Text>{selectedPokemon.height}</Text>
+              </Grid.Col>
+              <Grid.Col span={1}>
+                <Title order={4} className={classes.categoryTitle}>
+                  Weight
+                </Title>
+                <Text>{selectedPokemon.weight}</Text>
+              </Grid.Col>
+            </Grid>
+          </Box>
         </Box>
       </Dialog>
 
       {abilityDetails && (
-        <AbilityDetails
-          selectedAbility={abilityDetails}
-          onClose={() => {
+        <Overlay
+          onClick={() => {
             setAbilityDetails(null);
             setSelectedAbility(null);
           }}
-        />
+          style={{ backgroundColor: "#020202" }}
+        >
+          <AbilityDetails
+            selectedAbility={abilityDetails}
+            onClose={() => {
+              setAbilityDetails(null);
+              setSelectedAbility(null);
+            }}
+          />
+        </Overlay>
       )}
     </Box>
   );

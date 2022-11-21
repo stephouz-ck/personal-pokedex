@@ -12,6 +12,7 @@ import {
   LoadingOverlay,
   Loader,
   Grid,
+  Overlay,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
@@ -19,10 +20,7 @@ import { useEffect, useState } from "react";
 import { Ability } from "../../interfaces/ability";
 
 import { TYPE_COLORS } from "../../interfaces/color-types";
-import {
-  fetchAllAbilities,
-  fetchAllCharacteristics,
-} from "../../services/pokemon.service";
+import { fetchAllAbilities } from "../../services/pokemon.service";
 import { useStyles } from "./PokemonDetails.styled";
 import { PokemonDetailsProps } from "./PokemonDetails.types";
 
@@ -184,18 +182,25 @@ const PokemonDetails = ({ selectedPokemon, onClose }: PokemonDetailsProps) => {
               </Grid.Col>
             </Grid>
           </Box>
-          {}
         </Box>
       </Dialog>
 
       {abilityDetails && (
-        <AbilityDetails
-          selectedAbility={abilityDetails}
-          onClose={() => {
+        <Overlay
+          onClick={() => {
             setAbilityDetails(null);
             setSelectedAbility(null);
           }}
-        />
+          style={{ backgroundColor: "#020202" }}
+        >
+          <AbilityDetails
+            selectedAbility={abilityDetails}
+            onClose={() => {
+              setAbilityDetails(null);
+              setSelectedAbility(null);
+            }}
+          />
+        </Overlay>
       )}
     </>
   );

@@ -41,12 +41,9 @@ export const useStyles = createStyles((theme) => ({
     "& > div > div > div": {
       margin: "2rem 0",
     },
-    "&, &:hover": {
-      // TODO: fix scroll bar height
-      "& > div > mantine-ScrollArea-scrollbar": {
-        height: "16rem",
-        marginTop: "2rem 0",
-      },
+    "& > div > mantine-ScrollArea-scrollbar": {
+      height: "16rem",
+      marginTop: "2rem 0",
     },
   },
   categoryTitle: {

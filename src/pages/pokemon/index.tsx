@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { Pokemon } from "../../interfaces/api";
 import { TYPE_COLORS } from "../../interfaces/color-types";
 import { fetchAllPokemon } from "../../services/pokemon.service";
@@ -45,9 +45,10 @@ export default function AllPokemonPage() {
 
     const filterPokemons = (clickedPokemon: Pokemon) => {
       if (firstPokemon === null) {
+        pokemon;
         setFirstPokemon(tempArray.at(0) as Pokemon);
       }
-      if (firstPokemon !== null && secondPokemon === null) {
+      if (firstPokemon && secondPokemon === null) {
         tempArray.push(clickedPokemon);
         setSecondPokemon(tempArray.at(1) as Pokemon);
       }
@@ -72,7 +73,7 @@ export default function AllPokemonPage() {
         setSecondPokemon(null);
       }}
     >
-      <Box sx={{ height: "100%" }}>
+      <Box>
         {isLoading && (
           <LoadingOverlay visible={true}>
             <Loader scale="2rem" />
@@ -92,20 +93,14 @@ export default function AllPokemonPage() {
                   >
                     <Card.Section inheritPadding py="sm">
                       <Stack align="center">
-                        <Suspense
-                          fallback={
-                            <Skeleton visible={isLoading} width="4.75rem" />
+                        <Image
+                          width="4.75rem"
+                          src={
+                            pokemon.sprites.other?.["official-artwork"]
+                              .front_default
                           }
-                        >
-                          <Image
-                            width="4.75rem"
-                            src={
-                              pokemon.sprites.other?.["official-artwork"]
-                                .front_default
-                            }
-                            alt={pokemon.name}
-                          />
-                        </Suspense>
+                          alt={pokemon.name}
+                        />
                         <Title className={classes.cardTitle} order={3}>
                           {pokemon.name}
                         </Title>

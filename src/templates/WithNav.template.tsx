@@ -1,19 +1,29 @@
 import { Box, Button, Group, Image } from "@mantine/core";
+import { theme } from "../styles/theme";
 import { TemplateProps, TopNavProps } from "./template.types";
 
 const TopNav = ({ onClear }: TopNavProps) => {
   return (
-    <Box sx={{ margin: "1.5rem 0" }}>
+    <Box
+      style={{
+        top: "0",
+        position: "sticky",
+        width: "100%",
+        height: "100%",
+        padding: "2rem 0",
+        backgroundColor: theme.colors.dark[7],
+        zIndex: "2",
+      }}
+    >
       <Group
         style={{
           display: "flex",
           justifyContent: "space-between",
-          alignContent: "center",
         }}
       >
         <Image
           src="/media/pokedex_logo.png"
-          style={{ maxWidth: "8rem" }}
+          style={{ maxWidth: "12rem" }}
           alt="Personal PokéDex"
         />
         <Group>
@@ -50,7 +60,7 @@ const TopNav = ({ onClear }: TopNavProps) => {
 
 const WithNavTemplate = ({ children, onClear }: TemplateProps) => {
   return (
-    <Box>
+    <Box style={{ position: "relative" }}>
       <TopNav onClear={() => onClear()} />
       {children}
     </Box>

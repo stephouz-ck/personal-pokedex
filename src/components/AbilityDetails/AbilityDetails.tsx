@@ -1,4 +1,5 @@
-import { Box, Dialog, Group, Text, Title, Image } from "@mantine/core";
+import { Box, Dialog, Group, Text, Title } from "@mantine/core";
+import { InfoCircle } from "tabler-icons-react";
 import { useStyles } from "./AbilityDetails.styled";
 import { AbilityProps } from "./AbilityDetails.types";
 
@@ -9,9 +10,6 @@ const AbilityDetails = ({ selectedAbility, onClose }: AbilityProps) => {
     <Dialog
       opened
       className={classes.dialogContainer}
-      transition="slide-left"
-      transitionDuration={300}
-      transitionTimingFunction="ease"
       onClose={() => onClose()}
       withCloseButton
       withBorder
@@ -21,11 +19,7 @@ const AbilityDetails = ({ selectedAbility, onClose }: AbilityProps) => {
           T.language.name === "en" && (
             <Box>
               <Group className={classes.categoryTitle}>
-                <Image
-                  src="/media/icons/other/information.png"
-                  alt="Info"
-                  width="1.75rem"
-                />
+                <InfoCircle scale={8} />
                 <Title key={selectedAbility.id} order={3}>
                   {selectedAbility.name}
                 </Title>

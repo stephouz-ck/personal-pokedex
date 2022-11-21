@@ -8,9 +8,9 @@ export const useStyles = createStyles((theme) => ({
       color: theme.colors.blue[0],
       transition: "200ms ease",
     },
-    ":active": {
-      backgroundColor: theme.colors.blue[5],
-    },
+  },
+  activeCard: {
+    border: `1.5px solid ${theme.colors.blue[0]}`,
   },
   cardTitle: {
     textTransform: "capitalize",

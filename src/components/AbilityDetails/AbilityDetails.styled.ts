@@ -5,8 +5,9 @@ export const useStyles = createStyles((theme) => ({
     height: "auto",
     width: "22%",
     position: "fixed",
-    right: "20px",
-    bottom: "20px",
+    top: "50%",
+    left: "50%",
+    transform: "translateX(-50%) translateY(-50%) !important",
     gap: "4rem",
     "& h1, h2, h3, h4, h5, h6 ": {
       textTransform: "uppercase",
