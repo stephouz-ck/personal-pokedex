@@ -17,11 +17,7 @@ export default function Home() {
           <Stack>
             <Image src="/media/pokedex_logo.png" alt="PokéSteph" />
             <Link href="/pokemon" passHref>
-              <Button
-                component="a"
-                sx={{ margin: "0 auto" }}
-                onClick={() => <LoadingOverlay visible={true} />}
-              >
+              <Button component="a" sx={{ margin: "0 auto" }}>
                 Show all pokemon
               </Button>
             </Link>

@@ -13,6 +13,7 @@ import {
   Loader,
   Grid,
   Overlay,
+  Skeleton,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
@@ -74,13 +75,6 @@ const SecondPokemonDetails = ({
         withCloseButton
         withBorder
       >
-        {isLoading && (
-          <Box>
-            <LoadingOverlay visible={true}>
-              <Loader scale="2rem" />
-            </LoadingOverlay>
-          </Box>
-        )}
         <Stack
           align="center"
           className={classes.header}
@@ -116,22 +110,6 @@ const SecondPokemonDetails = ({
           offsetScrollbars
           id="pokemon_details__sections"
         >
-          {/* ABILITIES */}
-          <Stack id="pokemon_details__abilities">
-            <Title order={4} className={classes.categoryTitle}>
-              Abilities
-            </Title>
-            <Group>
-              {selectedPokemon.abilities.map((T) => (
-                <Button
-                  key={T.slot}
-                  onClick={() => setSelectedAbility(T.ability.name)}
-                >
-                  {T.ability.name}
-                </Button>
-              ))}
-            </Group>
-          </Stack>
           {/* STATS */}
           <Stack id="pokemon_details__stats">
             <Title order={4} className={classes.categoryTitle}>
@@ -155,6 +133,24 @@ const SecondPokemonDetails = ({
                 </Group>
               ))}
             </Stack>
+          </Stack>
+          {/* ABILITIES */}
+          <Stack id="pokemon_details__abilities">
+            <Title order={4} className={classes.categoryTitle}>
+              Abilities
+            </Title>
+            <Skeleton visible={isLoading} height="100%" width="100%">
+              <Group>
+                {selectedPokemon.abilities.map((T) => (
+                  <Button
+                    key={T.slot}
+                    onClick={() => setSelectedAbility(T.ability.name)}
+                  >
+                    {T.ability.name}
+                  </Button>
+                ))}
+              </Group>
+            </Skeleton>
           </Stack>
           {/* HELD ITEMS */}
           {selectedPokemon.held_items.length !== 0 && (

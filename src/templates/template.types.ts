@@ -1,10 +1,8 @@
 import { ReactNode } from "react";
+import { Pokemon } from "../interfaces/api";
 
 export type TemplateProps = {
   children?: ReactNode;
-  onClear: () => void;
-};
-
-export type TopNavProps = {
-  onClear: () => void;
+  onClear?: () => void;
+  // onCompare?: () => void;
 };
