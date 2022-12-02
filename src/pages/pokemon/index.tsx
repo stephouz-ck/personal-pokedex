@@ -16,6 +16,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import Searchbar from "../../components/Searchbar/Searchbar";
 import { Pokemon } from "../../interfaces/api";
 import { TYPE_COLORS } from "../../interfaces/color-types";
 import { fetchAllPokemon } from "../../services/pokemon.service";
@@ -31,19 +32,20 @@ const SecondPokemonDetails = dynamic(
 
 interface TopToolbarProps {
   onClear: () => void;
+  allPokemon: Pokemon[];
 }
 
-const TopToolbar = ({ onClear }: TopToolbarProps) => {
+const TopToolbar = ({ onClear, allPokemon }: TopToolbarProps) => {
   return (
     <Box
       style={{
         position: "fixed",
-        top: "6rem",
-        width: "100%",
+        top: "14rem",
         zIndex: "2",
+        margin: "0 auto 2rem auto",
       }}
     >
-      <Group align="center" sx={{ marginBottom: "2rem" }}>
+      <Group spacing="md" position="right">
         <Button
           size="md"
           leftIcon={
@@ -67,12 +69,15 @@ const TopToolbar = ({ onClear }: TopToolbarProps) => {
             />
           }
         >
-          Clear
+          Clear Selection
         </Button>
+        <Searchbar allPokemon={allPokemon} />
       </Group>
     </Box>
   );
 };
+
+// TODO: FIRST & SECOND POKEMON CANNOT BE THE SAME
 
 export default function AllPokemonPage() {
   const { data, isLoading } = useQuery(["all-pokemon"], fetchAllPokemon, {
@@ -117,26 +122,27 @@ export default function AllPokemonPage() {
     setSecondPokemon(null);
   };
 
-  useEffect(() => {
-    console.log("first", firstPokemon?.name);
-    console.log("second", secondPokemon?.name);
-  }, [firstPokemon, secondPokemon]);
-
   if (isLoading) {
     return <LoadingOverlay visible={true} />;
   }
 
   return (
     <WithNavTemplate>
-      <TopToolbar onClear={() => onClear()} />
+      <TopToolbar onClear={() => onClear()} allPokemon={data!} />
       <Box>
         <Grid columns={3}>
           {data?.map((pokemon) => {
             return (
               <Grid.Col span={1} key={pokemon.id}>
                 <Card
+                  key={pokemon.id}
                   radius="md"
-                  className={classes.cardContainer}
+                  className={
+                    firstPokemon?.id === pokemon.id ||
+                    secondPokemon?.id === pokemon.id
+                      ? classes.activeCard
+                      : classes.cardContainer
+                  }
                   onClick={() => handlePokemonSelect(pokemon)}
                 >
                   <Card.Section inheritPadding py="sm">

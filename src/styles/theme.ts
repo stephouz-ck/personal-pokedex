@@ -12,7 +12,7 @@ export const theme: MantineTheme = {
   globalStyles: (theme) => ({
     "html,body,#__next": {
       boxSizing: "border-box",
-      fontFamily: "'Titillium Web', sans-serif",
+      fontFamily: "'Ubuntu', sans-serif",
       minHeight: "inherit",
       height: "100%",
       padding: "0 auto",

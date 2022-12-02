@@ -10,7 +10,7 @@ export const useStyles = createStyles((theme) => ({
     },
   },
   activeCard: {
-    border: `1.5px solid ${theme.colors.blue[0]}`,
+    backgroundColor: theme.colors.blue[5],
   },
   cardTitle: {
     textTransform: "capitalize",

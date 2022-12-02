@@ -12,19 +12,15 @@ const TopNav = () => {
         position: "sticky",
         width: "100%",
         height: "100%",
-        padding: "2rem 0",
+        padding: "2rem 0 4rem 0",
         backgroundColor:
-          theme.colorScheme === "dark" ? theme.colors.dark : theme.colors.white,
+          theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
         zIndex: "2",
       }}
     >
       <Image
-        src={
-          theme.colorScheme === "light"
-            ? "/media/logo_dark.png"
-            : "/media/logo_light.png"
-        }
-        style={{ maxWidth: "12rem" }}
+        src="/media/logo_pokedex.png"
+        style={{ maxWidth: "20rem" }}
         alt="Personal PokéDex"
       />
     </Box>
