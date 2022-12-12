@@ -10,14 +10,18 @@ export const theme: MantineTheme = {
     fontFamily: "'Kanit', sans-serif",
   },
   globalStyles: (theme) => ({
-    "html,body,#__next": {
+    "*": {
       boxSizing: "border-box",
-      fontFamily: "'Ubuntu', sans-serif",
-      minHeight: "inherit",
+      margin: "0",
+    },
+    "html, body": {
+      width: "100%",
       height: "100%",
-      padding: "0 auto",
-      margin: "0 auto",
-      width: "80%",
+      minHeight: "inherit",
+      fontFamily: "'Ubuntu', sans-serif",
+    },
+    ".mantine-Grid-root": {
+      margin: "0 !important",
     },
   }),
   colors: {

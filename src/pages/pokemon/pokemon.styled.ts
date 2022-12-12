@@ -1,6 +1,9 @@
 import { createStyles } from "@mantine/core";
 
 export const useStyles = createStyles((theme) => ({
+  grid: {
+    margin: "0 !important",
+  },
   cardContainer: {
     cursor: "pointer",
     ":hover": {
@@ -11,6 +14,7 @@ export const useStyles = createStyles((theme) => ({
   },
   activeCard: {
     backgroundColor: theme.colors.blue[5],
+    cursor: "pointer",
   },
   cardTitle: {
     textTransform: "capitalize",

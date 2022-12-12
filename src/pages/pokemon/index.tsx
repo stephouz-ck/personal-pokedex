@@ -8,76 +8,22 @@ import {
   Image,
   Badge,
   Group,
-  Skeleton,
   LoadingOverlay,
-  Loader,
-  Button,
+  Skeleton,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
-import Searchbar from "../../components/Searchbar/Searchbar";
+import { Suspense } from "react";
+import { TYPE_COLORS } from "../../constants/constants";
 import { Pokemon } from "../../interfaces/api";
-import { TYPE_COLORS } from "../../interfaces/color-types";
 import { fetchAllPokemon } from "../../services/pokemon.service";
+import useStore from "../../store/useStore";
 import WithNavTemplate from "../../templates/WithNav.template";
 import { useStyles } from "./pokemon.styled";
 
 const PokemonDetails = dynamic(
   () => import("../../components/PokemonDetails/PokemonDetails")
 );
-const SecondPokemonDetails = dynamic(
-  () => import("../../components/PokemonDetails/SecondPokemonDetails")
-);
-
-interface TopToolbarProps {
-  onClear: () => void;
-  allPokemon: Pokemon[];
-}
-
-const TopToolbar = ({ onClear, allPokemon }: TopToolbarProps) => {
-  return (
-    <Box
-      style={{
-        position: "fixed",
-        top: "14rem",
-        zIndex: "2",
-        margin: "0 auto 2rem auto",
-      }}
-    >
-      <Group spacing="md" position="right">
-        <Button
-          size="md"
-          leftIcon={
-            <Image
-              src="/media/icons/other/exchange.png"
-              style={{ maxWidth: "24px" }}
-              alt="Compare"
-            />
-          }
-        >
-          Compare
-        </Button>
-        <Button
-          size="md"
-          onClick={() => onClear()}
-          leftIcon={
-            <Image
-              src="/media/icons/other/redo.png"
-              style={{ maxWidth: "24px" }}
-              alt="Compare"
-            />
-          }
-        >
-          Clear Selection
-        </Button>
-        <Searchbar allPokemon={allPokemon} />
-      </Group>
-    </Box>
-  );
-};
-
-// TODO: FIRST & SECOND POKEMON CANNOT BE THE SAME
 
 export default function AllPokemonPage() {
   const { data, isLoading } = useQuery(["all-pokemon"], fetchAllPokemon, {
@@ -85,22 +31,27 @@ export default function AllPokemonPage() {
     refetchOnWindowFocus: false,
   });
   const { classes } = useStyles();
-  const [firstPokemon, setFirstPokemon] = useState<Pokemon | null>(null);
-  const [secondPokemon, setSecondPokemon] = useState<Pokemon | null>(null);
+  const { firstPokemon, secondPokemon, setFirstPokemon, setSecondPokemon } =
+    useStore();
 
   const selectedPokemonArray: Pokemon[] = [];
 
   const handlePokemonSelect = (pokemon: Pokemon) => {
     selectedPokemonArray.unshift(pokemon);
+
     const tempArray = selectedPokemonArray.slice(0, 2);
 
-    const filterPokemons = (clickedPokemon: Pokemon) => {
+    const filterPokemon = (clickedPokemon: Pokemon) => {
       if (firstPokemon === null) {
-        pokemon;
+        tempArray.push(clickedPokemon);
         setFirstPokemon(tempArray.at(0) as Pokemon);
       }
-      if (firstPokemon && secondPokemon === null) {
-        tempArray.push(clickedPokemon);
+      if (
+        firstPokemon &&
+        secondPokemon === null &&
+        firstPokemon.id !== clickedPokemon.id
+      ) {
+        tempArray.unshift(clickedPokemon);
         setSecondPokemon(tempArray.at(1) as Pokemon);
       }
       // TODO: find way to handle a third choice
@@ -114,56 +65,73 @@ export default function AllPokemonPage() {
       //   setSecondPokemon(clickedPokemon);
       // }
     };
-    return filterPokemons(pokemon);
-  };
-
-  const onClear = () => {
-    setFirstPokemon(null);
-    setSecondPokemon(null);
+    return filterPokemon(pokemon);
   };
 
   if (isLoading) {
-    return <LoadingOverlay visible={true} />;
+    return (
+      <Box style={{ width: "100%", height: "100%" }}>
+        <LoadingOverlay visible={true} />
+      </Box>
+    );
   }
 
   return (
     <WithNavTemplate>
-      <TopToolbar onClear={() => onClear()} allPokemon={data!} />
-      <Box>
-        <Grid columns={3}>
-          {data?.map((pokemon) => {
-            return (
-              <Grid.Col span={1} key={pokemon.id}>
-                <Card
-                  key={pokemon.id}
-                  radius="md"
-                  className={
-                    firstPokemon?.id === pokemon.id ||
-                    secondPokemon?.id === pokemon.id
-                      ? classes.activeCard
-                      : classes.cardContainer
-                  }
-                  onClick={() => handlePokemonSelect(pokemon)}
-                >
-                  <Card.Section inheritPadding py="sm">
-                    <Stack align="center">
-                      <Image
-                        width="4.75rem"
-                        src={
-                          pokemon.sprites.other?.["official-artwork"]
-                            .front_default
-                        }
-                        alt={pokemon.name}
-                      />
-                      <Title className={classes.cardTitle} order={3}>
-                        {pokemon.name}
-                      </Title>
-                    </Stack>
-                  </Card.Section>
-                  <Card.Section inheritPadding py="sm">
-                    <Stack align="center">
-                      <Group>
-                        {pokemon.types.map((T) => (
+      <Grid columns={3}>
+        {data?.map((pokemon) => (
+          <Grid.Col span={1} key={pokemon.id}>
+            <Card
+              key={pokemon.id}
+              radius="md"
+              className={
+                firstPokemon?.id === pokemon.id ||
+                secondPokemon?.id === pokemon.id
+                  ? classes.activeCard
+                  : classes.cardContainer
+              }
+              onClick={() => handlePokemonSelect(pokemon)}
+            >
+              <Card.Section inheritPadding py="sm">
+                <Stack align="center">
+                  <Suspense
+                    fallback={
+                      isLoading && (
+                        <Skeleton height="100%" width="100%" mb="xl" circle />
+                      )
+                    }
+                  >
+                    <Image
+                      width="4.75rem"
+                      src={
+                        pokemon.sprites.other?.["official-artwork"]
+                          .front_default
+                      }
+                      alt={pokemon.name}
+                    />
+                  </Suspense>
+                  <Suspense
+                    fallback={
+                      isLoading && <Skeleton height="100%" width="auto" />
+                    }
+                  >
+                    <Title className={classes.cardTitle} order={3}>
+                      {pokemon.name}
+                    </Title>
+                  </Suspense>
+                </Stack>
+              </Card.Section>
+              <Card.Section inheritPadding py="sm">
+                <Stack align="center">
+                  <Group>
+                    {pokemon.types.map((T) => {
+                      return (
+                        <Suspense
+                          key={T.slot}
+                          fallback={
+                            isLoading && <Skeleton width="auto" height="100%" />
+                          }
+                        >
                           <Badge
                             key={T.type.name}
                             color={
@@ -175,28 +143,26 @@ export default function AllPokemonPage() {
                           >
                             {T.type.name}
                           </Badge>
-                        ))}
-                      </Group>
-                      <Text>Base XP: {pokemon.base_experience}</Text>
-                    </Stack>
-                  </Card.Section>
-                </Card>
-              </Grid.Col>
-            );
-          })}
-        </Grid>
-      </Box>
-      {firstPokemon && (
-        <PokemonDetails
-          selectedPokemon={firstPokemon}
-          onClose={() => setFirstPokemon(null)}
-        />
-      )}
+                        </Suspense>
+                      );
+                    })}
+                  </Group>
+                  <Suspense
+                    fallback={
+                      isLoading && <Skeleton height="100%" width="auto" />
+                    }
+                  >
+                    <Text>Base XP: {pokemon.base_experience}</Text>
+                  </Suspense>
+                </Stack>
+              </Card.Section>
+            </Card>
+          </Grid.Col>
+        ))}
+      </Grid>
+      {firstPokemon && <PokemonDetails selectedPokemon={firstPokemon} />}
       {secondPokemon && (
-        <SecondPokemonDetails
-          selectedPokemon={secondPokemon}
-          onClose={() => setSecondPokemon(null)}
-        />
+        <PokemonDetails selectedPokemon={secondPokemon} isSecond />
       )}
     </WithNavTemplate>
   );

@@ -20,6 +20,7 @@
     "next": "12.3.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hydration-provider": "^1.0.1",
     "tabler-icons-react": "^1.55.0",
     "zustand": "^4.1.4"
   },

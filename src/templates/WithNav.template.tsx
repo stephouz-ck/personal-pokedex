@@ -1,37 +1,15 @@
-import { Box, Image } from "@mantine/core";
-import { theme } from "../styles/theme";
-import { TemplateProps } from "./template.types";
+import { Box, Container, Stack } from "@mantine/core";
+import TopNav from "../components/TopNav/TopNav";
 
-const TopNav = () => {
-  return (
-    <Box
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        top: "0",
-        position: "sticky",
-        width: "100%",
-        height: "100%",
-        padding: "2rem 0 4rem 0",
-        backgroundColor:
-          theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
-        zIndex: "2",
-      }}
-    >
-      <Image
-        src="/media/logo_pokedex.png"
-        style={{ maxWidth: "20rem" }}
-        alt="Personal PokéDex"
-      />
-    </Box>
-  );
-};
+import { TemplateProps } from "./template.types";
 
 const WithNavTemplate = ({ children }: TemplateProps) => {
   return (
-    <Box style={{ position: "relative" }}>
-      <TopNav />
-      {children}
+    <Box sx={{ position: "relative" }}>
+      <Container size="md">
+        <TopNav />
+        {children}
+      </Container>
     </Box>
   );
 };
